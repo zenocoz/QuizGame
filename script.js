@@ -99,7 +99,7 @@
       ];
       let score;//tracking the score
       let scorePanel;
-      let questionNumber;
+      let questionNumber = 9;
    
       
 
@@ -142,33 +142,41 @@
      const nextQuestion = function (event) {
         let answer = event;
         
-        console.log(answer.target.value);
-        console.log(questions[0].correct_answer);
-        
-            if (answer.target.value === questions[0].correct_answer) {
-                console.log("CORRECT");
+            if (answer.target.value === questions[questionNumber].correct_answer) {
+                  console.log("CORRECT");
+                  score +=1;
 
             } else console.log("INCORRECT");
           
-           
+            questionNumber--;
+            let answers = document.getElementById("answers");
+            while (answers.firstChild) {
+                answers.removeChild(answers.firstChild);
+            }
+            if (questionNumber === 0) {
+                onGameOver();
+            }
+            Game();
+
     }
 
     const Game = function () {
-        questionNumber = questions.length;
-
-
+        
   /*       while (questionNumber > 0) {
       
          }  */
         //test display a question in the inner text.
         let question_ = document.getElementById("QBox");
-        question_.innerText = questions[0].question;
+        question_.innerText = questions[questionNumber].question;
         
         //generate radio button according to number of answers
         //TODO refactor
-        let number_of_answers = questions[0].incorrect_answers.length + 1;
-        let correct_ = questions[0].correct_answer;        
-        let incorrect_ = questions[0].incorrect_answers;
+
+    
+
+        let number_of_answers = questions[questionNumber].incorrect_answers.length + 1;
+        let correct_ = questions[questionNumber].correct_answer;        
+        let incorrect_ = questions[questionNumber].incorrect_answers;
         let all = [];
         incorrect_.push(correct_);
         all = incorrect_;
@@ -193,11 +201,9 @@
             //score ++ 
             //loop prosegue; con nuova
            
-        }  let test = document.getElementById("radioid");
+        }  
            
     
-
-        
         //question_.innerText = questions[0].question;
 
     }
