@@ -100,11 +100,10 @@
       let score;//tracking the score
       let scorePanel;
       let questionNumber = 9;
-   
-      
+      let random_questions = [];
+
 
       window.onload = function () {
-        score = 0;
         //IF YOU ARE DISPLAYING ALL THE QUESTIONS TOGETHER:
         //HINT: for each question, create a container with the "question"
         //create a radio button https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio with, as option the both the correct answer and the incorrect answers
@@ -112,18 +111,22 @@
         //IF YOU ARE DISPLAYING ONE QUESTION AT A TIME
         //Display first question with a title + radio button
         //when the user select the answer, pick the next question and remove this from the page after added in a varible the users' choice.
+        score = 0;
        
         scorePanel = document.getElementById("score");
+        questions.length;
         //assigning random non-repeating numerical id to each question
         let random_numbers = generateRandomNumbers(); //array of ints
         questions.forEach(function(questions,i) {
             const random = random_numbers[i];
-            questions.id = random;       
+            questions.id = random;
+
         });
-     
-        //onGameOver();
+        console.log(questions[0]["id"]);
         Game();
     };
+
+
 
     //returns array of random numbers
     const generateRandomNumbers = function () {
@@ -139,15 +142,12 @@
         return nums;
     }
 
-     const nextQuestion = function (event) {
-        let answer = event;
-        
+     const checkQuestion = function (event) {
+        let answer = event;     
             if (answer.target.value === questions[questionNumber].correct_answer) {
                   console.log("CORRECT");
                   score +=1;
-
             } else console.log("INCORRECT");
-          
             questionNumber--;
             let answers = document.getElementById("answers");
             while (answers.firstChild) {
@@ -157,22 +157,33 @@
                 onGameOver();
             }
             Game();
+    }
+
+    const FindObjectInArray = function() {
 
     }
 
     const Game = function () {
+        //get array element associated with question number
+        //questionNumber 
+
+
+        let random_element;
+
+      for (let i = 0; i < questions.length; i++) {
+            if (questions[i]["id"] === questionNumber) {
+                random_element = questions[i];
+            }
+        } 
         
-  /*       while (questionNumber > 0) {
-      
-         }  */
-        //test display a question in the inner text.
-        let question_ = document.getElementById("QBox");
+       
+        //displays the Question.
+        let question_= document.getElementById("QBox");
+    
+        
         question_.innerText = questions[questionNumber].question;
-        
         //generate radio button according to number of answers
         //TODO refactor
-
-    
 
         let number_of_answers = questions[questionNumber].incorrect_answers.length + 1;
         let correct_ = questions[questionNumber].correct_answer;        
@@ -182,34 +193,24 @@
         all = incorrect_;
 
         for (let i = 0; i < number_of_answers; i++) {
-            
-            
             let radio = document.createElement("input");
             radio.type = "radio";
             radio.id = "radioid";
             radio.name = "question";
             radio.value = all[i];
-            radio.addEventListener("change", nextQuestion);
+            radio.addEventListener("change", checkQuestion);
             let label = document.createElement("LABEL");
             label.setAttribute("for","answer");
             let text = document.createTextNode(all[i]);
             label.appendChild(text);
             document.getElementById("answers").appendChild(radio);
             document.getElementById("answers").appendChild(label);  
-
-            // if radio value == object[i].correct_answer[i]
-            //score ++ 
-            //loop prosegue; con nuova
-           
         }  
-           
-    
-        //question_.innerText = questions[0].question;
-
     }
 
     const onGameOver = function (){
-        //score = 8;
+        let question_= document.getElementById("QBox");
+        question_.innerText = "Game Over";
         finalScore = document.getElementById("score");
         finalScore.innerText = "your final score is: "+ score;
         scorePanel.style.visibility = "visible";
