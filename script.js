@@ -99,7 +99,8 @@
       ];
       let score;//tracking the score
       let scorePanel;
-      
+      let questionNumber;
+   
       
 
       window.onload = function () {
@@ -111,17 +112,92 @@
         //IF YOU ARE DISPLAYING ONE QUESTION AT A TIME
         //Display first question with a title + radio button
         //when the user select the answer, pick the next question and remove this from the page after added in a varible the users' choice.
+       
         scorePanel = document.getElementById("score");
-    
+        //assigning random non-repeating numerical id to each question
+        let random_numbers = generateRandomNumbers(); //array of ints
+        questions.forEach(function(questions,i) {
+            const random = random_numbers[i];
+            questions.id = random;       
+        });
+     
         //onGameOver();
         Game();
     };
 
+    //returns array of random numbers
+    const generateRandomNumbers = function () {
+        let nums = [];
+        let nums_length = 10;
+        for (let i = 0; i < nums_length; i++) {
+            let temp = Math.floor(Math.random() * nums_length);
+            if(nums.indexOf(temp) == -1) {
+                nums.push(temp);
+            } else 
+                --i;
+        }
+        return nums;
+    }
+
+     const nextQuestion = function (event) {
+        let answer = event;
+        
+        console.log(answer.target.value);
+        console.log(questions[0].correct_answer);
+        
+            if (answer.target.value === questions[0].correct_answer) {
+                console.log("CORRECT");
+
+            } else console.log("INCORRECT");
+          
+           
+    }
+
     const Game = function () {
+        questionNumber = questions.length;
 
 
+  /*       while (questionNumber > 0) {
+      
+         }  */
         //test display a question in the inner text.
         let question_ = document.getElementById("QBox");
+        question_.innerText = questions[0].question;
+        
+        //generate radio button according to number of answers
+        //TODO refactor
+        let number_of_answers = questions[0].incorrect_answers.length + 1;
+        let correct_ = questions[0].correct_answer;        
+        let incorrect_ = questions[0].incorrect_answers;
+        let all = [];
+        incorrect_.push(correct_);
+        all = incorrect_;
+
+        for (let i = 0; i < number_of_answers; i++) {
+            
+            
+            let radio = document.createElement("input");
+            radio.type = "radio";
+            radio.id = "radioid";
+            radio.name = "question";
+            radio.value = all[i];
+            radio.addEventListener("change", nextQuestion);
+            let label = document.createElement("LABEL");
+            label.setAttribute("for","answer");
+            let text = document.createTextNode(all[i]);
+            label.appendChild(text);
+            document.getElementById("answers").appendChild(radio);
+            document.getElementById("answers").appendChild(label);  
+
+            // if radio value == object[i].correct_answer[i]
+            //score ++ 
+            //loop prosegue; con nuova
+           
+        }  let test = document.getElementById("radioid");
+           
+    
+
+        
         //question_.innerText = questions[0].question;
 
     }
