@@ -100,7 +100,6 @@
       let score;//tracking the score
       let scorePanel;
       let questionNumber = 9;
-      //let random_questions = [];
       let random_element;
 
 
@@ -113,7 +112,6 @@
         //Display first question with a title + radio button
         //when the user select the answer, pick the next question and remove this from the page after added in a varible the users' choice.
         score = 0;
-       
         scorePanel = document.getElementById("score");
         questions.length;
         //assigning random non-repeating numerical id to each question
@@ -121,13 +119,9 @@
         questions.forEach(function(questions,i) {
             const random = random_numbers[i];
             questions.id = random;
-
         });
-        console.log(questions[0]["id"]);
         Game();
     };
-
-
 
     //returns array of random numbers
     const generateRandomNumbers = function () {
@@ -167,16 +161,13 @@
             if (questions[i]["id"] === questionNumber) {
                 random_element = questions[i];
             }
-        } 
-            
+        }             
         //displays the Question.
         let question_= document.getElementById("QBox");
-    
-        
         question_.innerText = random_element.question;
+
         //generate radio button according to number of answers
         //TODO refactor
-
         let number_of_answers = random_element.incorrect_answers.length + 1;
         let correct_ = random_element.correct_answer;        
         let incorrect_ = random_element.incorrect_answers;
