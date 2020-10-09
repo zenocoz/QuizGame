@@ -100,7 +100,8 @@
       let score;//tracking the score
       let scorePanel;
       let questionNumber = 9;
-      let random_questions = [];
+      //let random_questions = [];
+      let random_element;
 
 
       window.onload = function () {
@@ -144,7 +145,7 @@
 
      const checkQuestion = function (event) {
         let answer = event;     
-            if (answer.target.value === questions[questionNumber].correct_answer) {
+            if (answer.target.value === random_element.correct_answer) {
                   console.log("CORRECT");
                   score +=1;
             } else console.log("INCORRECT");
@@ -159,35 +160,26 @@
             Game();
     }
 
-    const FindObjectInArray = function() {
-
-    }
 
     const Game = function () {
         //get array element associated with question number
-        //questionNumber 
-
-
-        let random_element;
-
-      for (let i = 0; i < questions.length; i++) {
+        for (let i = 0; i < questions.length; i++) {
             if (questions[i]["id"] === questionNumber) {
                 random_element = questions[i];
             }
         } 
-        
-       
+            
         //displays the Question.
         let question_= document.getElementById("QBox");
     
         
-        question_.innerText = questions[questionNumber].question;
+        question_.innerText = random_element.question;
         //generate radio button according to number of answers
         //TODO refactor
 
-        let number_of_answers = questions[questionNumber].incorrect_answers.length + 1;
-        let correct_ = questions[questionNumber].correct_answer;        
-        let incorrect_ = questions[questionNumber].incorrect_answers;
+        let number_of_answers = random_element.incorrect_answers.length + 1;
+        let correct_ = random_element.correct_answer;        
+        let incorrect_ = random_element.incorrect_answers;
         let all = [];
         incorrect_.push(correct_);
         all = incorrect_;
