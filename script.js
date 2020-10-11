@@ -97,10 +97,12 @@
           incorrect_answers: ["Python", "C", "Jakarta"],
         },
       ];
-      let score;//tracking the score
+      let right_score = 0;
+      let wrong_score = 0;
       let scorePanel;
-      let questionNumber = questions.length-1;
+      let questionNumber = questions.length;
       let random_element;
+      let next_button;
 
       window.onload = function () {
         //IF YOU ARE DISPLAYING ALL THE QUESTIONS TOGETHER:
@@ -125,8 +127,8 @@
     //returns array of random numbers
     const generateRandomNumbers = function () {
         let nums = [];
-        let nums_length = 10;
-        for (let i = 0; i < nums_length; i++) {
+        let nums_length = 11; //changed indexes so questions have associated ids between 1 and 10
+        for (let i = 1; i < nums_length; i++) {
             let temp = Math.floor(Math.random() * nums_length);
             if(nums.indexOf(temp) == -1) {
                 nums.push(temp);
@@ -141,44 +143,42 @@
         while (answers.firstChild) {
             answers.removeChild(answers.firstChild);
         } 
-        Game();
-
+        document.getElementById("body").removeChild(next_button);
+        Game()     
     }
 
      const checkQuestion = function (event) {
-        //let answer_event = event;
         let labels_array = [];//strings
-        
         let answer = event.target.value;//string
         let right_answer = random_element.correct_answer;//string
-        //console.log(right_answer);
-      
-        //console.log(answer);
         let answer_labels = document.querySelectorAll("label");//nodes
+        let right_index; //int
+        let answer_index; //int
+        //creates array of string values of each node
         for (let i = 0; i < answer_labels.length; i++) {
             labels_array.push(answer_labels[i].textContent);
         } 
-
-        let right_index = labels_array.indexOf(right_answer);
-        let answer_index = labels_array.indexOf(answer);
-        console.log(right_index);
+        right_index = labels_array.indexOf(right_answer);
+        answer_index = labels_array.indexOf(answer);
         if (answer === right_answer) {
-            console.log(answer_labels[right_index]);
             answer_labels[right_index].style.backgroundColor = "green";
-
+            right_score++;
         } else {
             answer_labels[right_index].style.backgroundColor = "green"
             answer_labels[answer_index].style.backgroundColor = "red"
+            wrong_score++;
         }
-         
-
+        next_button = document.createElement("button");
+        next_button.type = "button";
+        next_button.addEventListener("click", nextQuestion);
+        next_button.textContent = "Next Question";
+        document.getElementById("body").appendChild(next_button);
         questionNumber--;
 
-        if (questionNumber === 0) {
+        if (!questionNumber) {
             onGameOver();
         } 
- 
-            //Game();
+
     }
 
     //randomize array all[] so that answers are presented in different order each time
@@ -208,12 +208,11 @@
         question_.innerText = random_element.question;
 
         //generate radio button according to number of answers
-        //TODO refactor
         let number_of_answers = random_element.incorrect_answers.length + 1;
         let correct_ = random_element.correct_answer;        
         let incorrect_ = random_element.incorrect_answers;
         let all = [];
-        incorrect_.unshift(correct_);//create array with correct answer in first position
+        incorrect_.push(correct_);
         all = incorrect_;
         all = randomizeArray(all)
 
@@ -226,7 +225,7 @@
             radio.addEventListener("change", checkQuestion);
             let label = document.createElement("LABEL");
             label.setAttribute("for","answer", "id");
-            label.id = "label"; //+i;
+            label.id = "label"; 
             let text = document.createTextNode(all[i]);
             label.appendChild(text);
             document.getElementById("answers").appendChild(radio);
@@ -238,7 +237,7 @@
         let question_= document.getElementById("QBox");
         question_.innerText = "Game Over";
         finalScore = document.getElementById("score");
-        finalScore.innerText = "your final score is: "+ score;
+        finalScore.innerText = "your final score is: "+ right_score + " right answers and " + wrong_score + " wrong answers";
         scorePanel.style.visibility = "visible";
     }
       //HOW TO calculate the result
