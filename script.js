@@ -136,6 +136,15 @@
         return nums;
     }
 
+    const nextQuestion = function () {
+        let answers = document.getElementById("answers");
+        while (answers.firstChild) {
+            answers.removeChild(answers.firstChild);
+        } 
+        Game();
+
+    }
+
      const checkQuestion = function (event) {
         //let answer_event = event;
         let labels_array = [];//strings
@@ -161,30 +170,14 @@
             answer_labels[right_index].style.backgroundColor = "green"
             answer_labels[answer_index].style.backgroundColor = "red"
         }
-
-
-       //console.log(labels_array);
-       //console.log(labels_array.indexOf(answer));
-       
-
-        //let right_answer = document.getElementById("label0");
          
-            if (answer === random_element.correct_answer) {
-                  console.log("CORRECT");
-                //   let right_answer = document.getElementById("label0");
-                //    right_answer.style.backgroundColor = "green";
-                  score +=1;
-            } else {
-            console.log("INCORRECT");
-            }
-            questionNumber--;
-            let answers = document.getElementById("answers");
-           /*  while (answers.firstChild) {
-                answers.removeChild(answers.firstChild);
-            } */
-            if (questionNumber === 0) {
-                onGameOver();
-            }
+
+        questionNumber--;
+
+        if (questionNumber === 0) {
+            onGameOver();
+        } 
+ 
             //Game();
     }
 
