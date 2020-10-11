@@ -112,7 +112,6 @@
         //IF YOU ARE DISPLAYING ONE QUESTION AT A TIME
         //Display first question with a title + radio button
         //when the user select the answer, pick the next question and remove this from the page after added in a varible the users' choice.
-        score = 0;
         scorePanel = document.getElementById("score");
         questions.length;
         //assigning random non-repeating numerical id to each question
@@ -214,7 +213,7 @@
         let all = [];
         incorrect_.push(correct_);
         all = incorrect_;
-        all = randomizeArray(all)
+        all = randomizeArray(all);
 
         for (let i = 0; i < number_of_answers; i++) {
             let radio = document.createElement("input");
