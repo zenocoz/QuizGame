@@ -99,9 +99,8 @@
       ];
       let score;//tracking the score
       let scorePanel;
-      let questionNumber = 9;
+      let questionNumber = questions.length-1;
       let random_element;
-
 
       window.onload = function () {
         //IF YOU ARE DISPLAYING ALL THE QUESTIONS TOGETHER:
@@ -138,22 +137,71 @@
     }
 
      const checkQuestion = function (event) {
-        let answer = event;     
-            if (answer.target.value === random_element.correct_answer) {
+        //let answer_event = event;
+        let labels_array = [];//strings
+        
+        let answer = event.target.value;//string
+        let right_answer = random_element.correct_answer;//string
+        //console.log(right_answer);
+      
+        //console.log(answer);
+        let answer_labels = document.querySelectorAll("label");//nodes
+        for (let i = 0; i < answer_labels.length; i++) {
+            labels_array.push(answer_labels[i].textContent);
+        } 
+
+        let right_index = labels_array.indexOf(right_answer);
+        let answer_index = labels_array.indexOf(answer);
+        console.log(right_index);
+        if (answer === right_answer) {
+            console.log(answer_labels[right_index]);
+            answer_labels[right_index].style.backgroundColor = "green";
+
+        } else {
+            answer_labels[right_index].style.backgroundColor = "green"
+            answer_labels[answer_index].style.backgroundColor = "red"
+        }
+
+
+       //console.log(labels_array);
+       //console.log(labels_array.indexOf(answer));
+       
+
+        //let right_answer = document.getElementById("label0");
+         
+            if (answer === random_element.correct_answer) {
                   console.log("CORRECT");
+                //   let right_answer = document.getElementById("label0");
+                //    right_answer.style.backgroundColor = "green";
                   score +=1;
-            } else console.log("INCORRECT");
+            } else {
+            console.log("INCORRECT");
+            }
             questionNumber--;
             let answers = document.getElementById("answers");
-            while (answers.firstChild) {
+           /*  while (answers.firstChild) {
                 answers.removeChild(answers.firstChild);
-            }
+            } */
             if (questionNumber === 0) {
                 onGameOver();
             }
-            Game();
+            //Game();
     }
 
+    //randomize array all[] so that answers are presented in different order each time
+    //using Fisher-Yates shuffle algorithm
+    const randomizeArray = function(array) {
+        let a = array.length;
+        let temp;
+        let i;
+        while (a) {
+            i = Math.floor(Math.random() * a--);
+            temp = array[a];
+            array[a] = array[i];
+            array[i] = temp;
+        }
+        return array;     
+    }
 
     const Game = function () {
         //get array element associated with question number
@@ -172,8 +220,9 @@
         let correct_ = random_element.correct_answer;        
         let incorrect_ = random_element.incorrect_answers;
         let all = [];
-        incorrect_.push(correct_);
+        incorrect_.unshift(correct_);//create array with correct answer in first position
         all = incorrect_;
+        all = randomizeArray(all)
 
         for (let i = 0; i < number_of_answers; i++) {
             let radio = document.createElement("input");
@@ -183,7 +232,8 @@
             radio.value = all[i];
             radio.addEventListener("change", checkQuestion);
             let label = document.createElement("LABEL");
-            label.setAttribute("for","answer");
+            label.setAttribute("for","answer", "id");
+            label.id = "label"; //+i;
             let text = document.createTextNode(all[i]);
             label.appendChild(text);
             document.getElementById("answers").appendChild(radio);
