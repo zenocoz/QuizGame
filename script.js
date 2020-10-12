@@ -104,6 +104,7 @@
       let random_element;
       let next_button;
 
+
       window.onload = function () {
         //IF YOU ARE DISPLAYING ALL THE QUESTIONS TOGETHER:
         //HINT: for each question, create a container with the "question"
@@ -113,7 +114,6 @@
         //Display first question with a title + radio button
         //when the user select the answer, pick the next question and remove this from the page after added in a varible the users' choice.
         scorePanel = document.getElementById("score");
-        questions.length;
         //assigning random non-repeating numerical id to each question
         let random_numbers = generateRandomNumbers(); //array of ints
         questions.forEach(function(questions,i) {
